@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono, Gabarito } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/app/components/Navbar/Navbar";
+import Footer from "./components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +28,8 @@ export default function RootLayout({ children }) {
         suppressHydrationWarning={true}
       >
         <Navbar />
-        <main className="pt-24 bg-[#f4f3ec]">{children}</main>
+        <main className="pt-36 lg:pt-24 bg-[#f4f3ec]">{children}</main>
+        <Footer />
       </body>
     </html>
   );
