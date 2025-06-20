@@ -120,7 +120,7 @@ export default function TravelDestinations() {
 
                   <button
                     onClick={() => handleViewDetails(destination.id)}
-                    className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-full font-medium transition-all duration-200 flex items-center group"
+                    className="bg-orange-500 hover:bg-orange-600 text-white px-4 lg:px-6 lg:py-2 rounded-full font-medium transition-all duration-200 flex items-center group"
                   >
                     View Details
                     <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />

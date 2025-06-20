@@ -33,7 +33,7 @@ const Navbar = () => {
           Search
         </button>
         <button className="bg-black text-white px-6 py-3 rounded-full">
-          Book Now
+          Sign In
         </button>
       </div>
     </nav>

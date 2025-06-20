@@ -1,8 +1,8 @@
 import Image from "next/image";
-import Card from "./components/Card";
+import Card from "../components/Card";
 import { MoveRight } from "lucide-react";
-import Testimonial from "./components/Testimonial";
-import Gallery from "./components/Gallery";
+import Testimonial from "../components/Testimonial";
+import Gallery from "../components/Gallery";
 
 export default function Home() {
   return (
@@ -209,7 +209,7 @@ export default function Home() {
         <h1 className="text-5xl lg:text-6xl font-semibold">ADVENTURES CAN FILL</h1>
 
         <div className="flex gap-8 lg:gap-16 items-center">
-          <h1 className="text-4xl font-semibold">YOUR SOUL</h1>
+          <h1 className="text-4xl lg:text-6xl font-semibold">YOUR SOUL</h1>
           <p className="text-lg text-gray-600 max-w-2xl">
             Travel is the movement of people between distant geographical
             locations. Travel can be done by foot, bycicle. Travel is the
