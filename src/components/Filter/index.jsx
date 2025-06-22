@@ -12,13 +12,13 @@ const Filter = () => {
           placeholder="City Location"
           id="location"
           name="location"
-          className="w-full border border-slate-300 px-4 py-1 rounded-lg"
+          className="w-full lg:my-2 border border-slate-300 px-4 py-1 rounded-lg"
         />
       </div>
 
       <div className="flex gap-2 flex-col lg:flex-row">
         <div className="flex w-full gap-3">
-          <div className="flex flex-col w-1/2">
+          <div className="flex flex-col lg:gap-1 w-1/2">
             <label htmlFor="type">Type</label>
             <select
               name="type"
@@ -37,7 +37,7 @@ const Filter = () => {
             </select>
           </div>
 
-          <div className="flex flex-col w-1/2">
+          <div className="flex flex-col w-1/2 lg:gap-1">
             <label htmlFor="property">Property</label>
             <select
               name="property"
@@ -58,20 +58,21 @@ const Filter = () => {
               </option>
             </select>
           </div>
+          
         </div>
 
-        <div className="">
+        <div className="lg:w-full lg:flex lg:flex-col lg:gap-1">
           <h3>Min Price</h3>
           <input
             type="text"
             placeholder="any"
             id="min-price"
             name="min-price"
-            className="w-full border border-slate-300 px-4 py-1 rounded-lg"
+            className="w-full border border-slate-300 px-4 py-1 rounded-lg lg:w-full"
           />
         </div>
 
-        <div className="">
+        <div className="lg:w-full lg:flex lg:flex-col lg:gap-1">
           <h3>Max Price</h3>
           <input
             type="text"
@@ -82,7 +83,7 @@ const Filter = () => {
           />
         </div>
 
-        <div className="mb-8">
+        <div className="mb-8 lg:w-full lg:flex lg:flex-col lg:gap-1">
           <h3>Bedroom</h3>
           <input
             type="text"

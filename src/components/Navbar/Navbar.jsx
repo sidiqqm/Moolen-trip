@@ -4,7 +4,7 @@ import React from "react";
 
 const Navbar = () => {
   return (
-    <nav className="flex fixed top-0 left-0 w-full z-30 px-6 py-2 bg-transparent/70 backdrop-blur-xs shadow-md items-center justify-between text-color-light">
+    <nav className="flex fixed top-0 left-0 w-full z-20 px-6 py-2 bg-transparent/70 backdrop-blur-xs shadow-md items-center justify-between text-color-light">
       <Image
         src="/logo-moolen.png"  
         alt="Logo"

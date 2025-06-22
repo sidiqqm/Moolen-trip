@@ -1,44 +1,53 @@
 import { ArrowArcRightIcon } from "@phosphor-icons/react";
 import { ArrowRight, MapPin, Proportions, Warehouse } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const CardList = ({ item }) => {
   return (
-    <div className="w-full max-w-full overflow-hidden">
+    <Link
+      href={`/Detail/${item.id}`}
+      className="w-full max-w-full overflow-hidden cursor-pointer"
+    >
       <div className="flex flex-col md:flex-row w-full gap-4 p-4 border border-gray-200 rounded-lg shadow-sm transition-transform duration-300 transform hover:shadow-md hover:scale-[1.02] origin-center">
-        {/* Gambar */}
-        <div className="w-full md:w-1/2 lg:w-2/5 xl:w-1/3">
+        {/* Gambar - Bagian yang diperbaiki */}
+        <div className="w-full md:w-1/2 relative aspect-video min-h-[200px]">
           <Image
             src={item.img}
             alt={item.title}
-            width={100}
-            height={100}
-            className="w-full h-48 sm:h-56 md:h-full lg:h-64 xl:h-72 rounded-2xl object-cover"
+            fill
+            quality={80}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="rounded-2xl object-cover"
+            placeholder={item.imgBlur ? "blur" : "empty"}
+            blurDataURL={item.imgBlur || undefined}
           />
         </div>
 
         {/* Konten */}
-        <div className="w-full md:w-1/2 lg:w-3/5 xl:w-2/3 flex flex-col justify-between">
-          <div>
-            <h1 className="text-lg lg:text-xl font-semibold capitalize">
+        <div className="w-full md:w-1/2 flex flex-col justify-between">
+          <div className="flex flex-col md:gap-6">
+            <h1 className="text-lg md:text-xl font-semibold capitalize">
               {item.title}
             </h1>
 
-            <div className="flex items-center text-gray-500 text-sm lg:text-base my-2">
-              <MapPin className="w-4 h-4 mr-1 text-orange-500" />
-              {item.address}
-            </div>
-
-            <div className="flex flex-wrap gap-4 mb-2">
-              <div className="flex items-center text-gray-500 text-sm lg:text-base">
-                <Warehouse className="w-4 h-4 mr-1 text-orange-500" />
-                {item.bedroom} Bedroom
+            <div className="">
+              <div className="flex items-center text-gray-500 text-sm md:text-base my-2">
+                <MapPin className="w-4 h-4 mr-1 text-orange-500" />
+                {item.address}
               </div>
 
-              <div className="flex items-center text-gray-500 text-sm lg:text-base">
-                <Proportions className="w-4 h-4 mr-1 text-orange-500" />
-                {item.bathroom} Bathroom
+              <div className="flex flex-wrap gap-4 mb-2">
+                <div className="flex items-center text-gray-500 text-sm md:text-base">
+                  <Warehouse className="w-4 h-4 mr-1 text-orange-500" />
+                  {item.bedroom} Bedroom
+                </div>
+
+                <div className="flex items-center text-gray-500 text-sm md:text-base">
+                  <Proportions className="w-4 h-4 mr-1 text-orange-500" />
+                  {item.bathroom} Bathroom
+                </div>
               </div>
             </div>
           </div>
@@ -46,7 +55,7 @@ const CardList = ({ item }) => {
           <div className="flex items-center justify-between mt-2">
             <div className="flex items-baseline">
               <span className="text-2xl lg:text-3xl font-bold text-orange-500">
-                $340
+                ${item.price}
               </span>
               <span className="text-gray-500 text-sm lg:text-base ml-1">
                 /person
@@ -55,7 +64,7 @@ const CardList = ({ item }) => {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

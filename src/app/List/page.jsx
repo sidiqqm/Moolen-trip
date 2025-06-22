@@ -16,8 +16,8 @@ const List = () => {
   const data = listData;
 
   return (
-    <div className="px-4 h-full pb-4">
-      <div className="">
+    <div className="lg:px-16 px-4 h-full pb-4 lg:flex lg:h-screen">
+      <div className="lg:w-1/2 lg:h-screen lg:overflow-y-auto lg:pr-4">
         <Filter />
         {data.map((item) => {
           return (
@@ -27,7 +27,7 @@ const List = () => {
           );
         })}
       </div>
-      <div className="">
+      <div className="lg:w-1/2 z-0 pl-4">
         <Map items={data} />
       </div>
     </div>
