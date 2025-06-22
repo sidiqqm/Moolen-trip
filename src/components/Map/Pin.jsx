@@ -47,14 +47,14 @@ const Pin = ({ item }) => {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3 text-xs text-gray-600">
                 <span className="flex items-center">
-                  <Warehouse className="w-3 h-3 mr-1" />2 rooms
+                  <Warehouse className="w-3 h-3 mr-1" />{item.bedrooms} Bedrooms
                 </span>
                 <span className="flex items-center">
                   <Proportions className="w-3 h-3 mr-1" />
-                  45 m²
+                  {item.bathrooms} Bathrooms
                 </span>
               </div>
-              <span className="font-bold text-orange-600">$870 / mo</span>
+              <span className="font-bold text-orange-600">${item.price} / mo</span>
             </div>
           </div>
         </div>

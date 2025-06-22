@@ -12,7 +12,7 @@ export default function Map({items}) {
       center={[52.479, -1.90269]}
       zoom={7}
       scrollWheelZoom={false}
-      className="w-full h-96 rounded-2xl"
+      className="w-full h-96 lg:h-[calc(100vh-4rem)] rounded-2xl"
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
