@@ -51,7 +51,7 @@ const DetailPage = ({ params }) => {
           Home
         </Link>
         <span className="mx-2">/</span>
-        <Link href="/List" className="hover:text-orange-500">
+        <Link href="/list" className="hover:text-orange-500">
           Properties
         </Link>
         <span className="mx-2">/</span>

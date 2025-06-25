@@ -7,7 +7,7 @@ import React from "react";
 const CardList = ({ item }) => {
   return (
     <Link
-      href={`/Detail/${item.id}`}
+      href={`/detail/${item.id}`}
       className="w-full max-w-full overflow-hidden cursor-pointer"
     >
       <div className="flex flex-col md:flex-row w-full gap-4 p-4 border border-gray-200 rounded-lg shadow-sm transition-transform duration-300 transform hover:shadow-md hover:scale-[1.02] origin-center">
