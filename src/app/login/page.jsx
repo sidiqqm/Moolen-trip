@@ -14,6 +14,7 @@ const LoginPage = () => {
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const navigation = useRouter();
 
   const validateForm = () => {
     const newErrors = {};
@@ -37,15 +38,22 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    setErrors("");
+    setErrors({});
 
     if (!validateForm()) return;
 
+    const formData = new FormData(e.target);
+
+    const email = formData.get("email");
+    const password = formData.get("password");
+
     try {
-      const res = await apiRequest.post({
+      const res = await apiRequest.post("/auth/login",{
         email,
         password,
       });
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+      router.push("/");
       
     } catch (err) {
       console.log(err.response);
@@ -54,8 +62,6 @@ const LoginPage = () => {
     } finally {
       setIsLoading(false);
     }
-
-    router.push("/");
   };
 
   return (
