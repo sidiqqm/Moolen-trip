@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from 'react';
-import { Camera, Edit, PlusCircle } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
+import { use, useState } from "react";
+import { Camera, Edit, PlusCircle } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import apiRequest from "@/lib/apiRequest";
+import { useRouter } from "next/navigation";
 
 // Mock user data - in a real app, you would fetch this from your API
 const userData = {
@@ -19,7 +21,7 @@ const userData = {
       img: "https://images.pexels.com/photos/1918291/pexels-photo-1918291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
       address: "123 Main St, New York, NY",
       price: 1200,
-      date: "2023-10-15"
+      date: "2023-10-15",
     },
     {
       id: "2",
@@ -27,7 +29,7 @@ const userData = {
       img: "https://images.pexels.com/photos/1918291/pexels-photo-1918291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
       address: "123 Main St, New York, NY",
       price: 1200,
-      date: "2023-10-15"
+      date: "2023-10-15",
     },
     {
       id: "3",
@@ -35,7 +37,7 @@ const userData = {
       img: "https://images.pexels.com/photos/1918291/pexels-photo-1918291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
       address: "123 Main St, New York, NY",
       price: 1200,
-      date: "2023-10-15"
+      date: "2023-10-15",
     },
     {
       id: "4",
@@ -43,15 +45,16 @@ const userData = {
       img: "https://images.pexels.com/photos/1918291/pexels-photo-1918291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
       address: "456 Park Ave, New York, NY",
       price: 850,
-      date: "2023-09-22"
-    }
-  ]
+      date: "2023-09-22",
+    },
+  ],
 };
 
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [user, setUser] = useState(userData);
   const [newAvatar, setNewAvatar] = useState(null);
+  const router = useRouter();
 
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
@@ -61,6 +64,15 @@ const Profile = () => {
         setNewAvatar(event.target.result);
       };
       reader.readAsDataURL(file);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await apiRequest.post("/auth/logout");
+      router.push("/login");
+    } catch (err) {
+      console.log(err.message);
     }
   };
 
@@ -78,7 +90,7 @@ const Profile = () => {
               height={128}
               className="object-cover w-full h-full"
             />
-            <label 
+            <label
               htmlFor="avatar-upload"
               className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
             >
@@ -97,10 +109,8 @@ const Profile = () => {
         {/* User Info */}
         <div className="flex-1">
           <div className="flex items-center gap-4 mb-2">
-            <h1 className="text-2xl md:text-3xl font-bold">
-              {user.username}
-            </h1>
-            <button 
+            <h1 className="text-2xl md:text-3xl font-bold">{user.username}</h1>
+            <button
               onClick={() => setIsEditing(!isEditing)}
               className="flex items-center gap-1 text-sm bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded-full transition-colors"
             >
@@ -114,13 +124,16 @@ const Profile = () => {
 
           {/* Action Buttons */}
           <div className="flex gap-4 mt-6">
-            <Link 
+            <Link
               href="/create-post"
               className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg transition-colors"
             >
               <PlusCircle className="w-5 h-5" />
               <span>Create New Post</span>
             </Link>
+            <button className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg transition-colors" onClick={handleLogout}>
+              Logout
+            </button>
           </div>
         </div>
       </div>
@@ -135,7 +148,7 @@ const Profile = () => {
               <input
                 type="text"
                 value={user.username}
-                onChange={(e) => setUser({...user, username: e.target.value})}
+                onChange={(e) => setUser({ ...user, username: e.target.value })}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
               />
             </div>
@@ -144,7 +157,7 @@ const Profile = () => {
               <input
                 type="email"
                 value={user.email}
-                onChange={(e) => setUser({...user, email: e.target.value})}
+                onChange={(e) => setUser({ ...user, email: e.target.value })}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
               />
             </div>
@@ -170,11 +183,13 @@ const Profile = () => {
       {/* My Posts Section */}
       <div className="border-t border-gray-200 pt-8">
         <h2 className="text-2xl font-bold mb-6">My Listings</h2>
-        
+
         {user.posts.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-gray-500 mb-4">You haven't posted any listings yet</p>
-            <Link 
+            <p className="text-gray-500 mb-4">
+              You haven't posted any listings yet
+            </p>
+            <Link
               href="/create-post"
               className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg transition-colors"
             >
@@ -185,7 +200,10 @@ const Profile = () => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {user.posts.map((post) => (
-              <div key={post.id} className="border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow">
+              <div
+                key={post.id}
+                className="border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow"
+              >
                 <Link href={`/detail/${post.id}`}>
                   <div className="relative h-48">
                     <Image
@@ -199,7 +217,9 @@ const Profile = () => {
                     <h3 className="font-semibold text-lg mb-1">{post.title}</h3>
                     <p className="text-gray-600 text-sm mb-2">{post.address}</p>
                     <div className="flex justify-between items-center">
-                      <span className="font-bold text-orange-500">${post.price}</span>
+                      <span className="font-bold text-orange-500">
+                        ${post.price}
+                      </span>
                       <span className="text-gray-500 text-sm">{post.date}</span>
                     </div>
                   </div>

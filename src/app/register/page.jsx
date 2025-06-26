@@ -8,7 +8,7 @@ import apiRequest from "@/lib/apiRequest";
 import axios from "axios";
 
 const RegisterPage = () => {
-  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -55,12 +55,12 @@ const RegisterPage = () => {
     const password = formData.get("password");
 
     try {
-      const res = await axios.post("http://localhost:8800/api/auth/register", {
+      const res = await apiRequest.post("/auth/register", {
         username,
         email,
         password,
       });
-      router.push("/");
+      router.push("/login");
     } catch (err) {
       console.log(err.response);
       setErrors({
@@ -127,21 +127,21 @@ const RegisterPage = () => {
                   <User className="h-5 w-5 text-gray-400" />
                 </div>
                 <input
-                  id="name"
-                  name="name"
+                  id="username"
+                  name="username"
                   type="text"
-                  autoComplete="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  autoComplete="username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                   className={`block w-full pl-10 pr-3 py-2 border ${
-                    errors.name
+                    errors.username
                       ? "border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500"
                       : "border-gray-300 placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                   } rounded-md shadow-sm`}
                 />
               </div>
-              {errors.name && (
-                <p className="mt-2 text-sm text-red-600">{errors.name}</p>
+              {errors.username && (
+                <p className="mt-2 text-sm text-red-600">{errors.username}</p>
               )}
             </div>
 
