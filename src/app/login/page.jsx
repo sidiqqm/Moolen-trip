@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Link from "next/link";
 import { Lock, Mail, Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
+import AuthContext from "@/context/AuthContext";
 import apiRequest from "@/lib/apiRequest";
-import axios from "axios";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -13,8 +13,8 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const { updateUser } = useContext(AuthContext);
   const router = useRouter();
-  const navigation = useRouter();
 
   const validateForm = () => {
     const newErrors = {};
@@ -48,17 +48,15 @@ const LoginPage = () => {
     const password = formData.get("password");
 
     try {
-      const res = await apiRequest.post("/auth/login",{
+      const res = await apiRequest.post("/auth/login", {
         email,
         password,
       });
-      localStorage.setItem("user", JSON.stringify(res.data.user));
+      updateUser(res.data);
       router.push("/");
-      
     } catch (err) {
       console.log(err.response);
       setErrors(err.response.data.message);
-
     } finally {
       setIsLoading(false);
     }

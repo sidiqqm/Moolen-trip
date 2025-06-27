@@ -2,6 +2,7 @@ import { Geist, Geist_Mono, Gabarito } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar/Navbar";
 import Footer from "../components/Footer";
+import { AuthContextProvider } from "@/context/AuthContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,9 +28,11 @@ export default function RootLayout({ children }) {
         className={`${gabarito.className} antialiased bg-color-dark`}
         suppressHydrationWarning={true}
       >
-        <Navbar />
-        <main className="pt-36 lg:pt-24 bg-[#f4f3ec] py-8">{children}</main>
-        <Footer />
+        <AuthContextProvider>
+          <Navbar />
+          <main className="pt-36 lg:pt-24 bg-[#f4f3ec] py-8">{children}</main>
+          <Footer />
+        </AuthContextProvider>
       </body>
     </html>
   );
