@@ -1,22 +1,24 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Menu, X, User } from 'lucide-react';
+import { Menu, X, User } from "lucide-react";
+import AuthContext from "@/context/AuthContext";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Change this based on auth state
+  const [isLoggedIn, setIsLoggedIn] = useState(true); // Change this based on auth state
   const [isScrolled, setIsScrolled] = useState(false);
+  const { currentUser } = useContext(AuthContext);
 
   // Navigation links data
   const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Feature', path: '/features' },
-    { name: 'About Us', path: '/about' },
-    { name: 'Pricing', path: '/pricing' },
-    { name: 'Blog', path: '/blog' },
+    { name: "Home", path: "/" },
+    { name: "Feature", path: "/features" },
+    { name: "About Us", path: "/about" },
+    { name: "Pricing", path: "/pricing" },
+    { name: "Blog", path: "/blog" },
   ];
 
   // Toggle mobile menu
@@ -39,17 +41,23 @@ const Navbar = () => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
-    <nav className={`fixed top-0 left-0 w-full z-50 px-4 py-3 transition-all duration-300 ${isScrolled ? 'bg-white/90 backdrop-blur-sm shadow-md' : 'bg-transparent backdrop-blur-xs shadow-md'}`}>
+    <nav
+      className={`fixed top-0 left-0 w-full z-50 px-4 py-3 transition-all duration-300 ${
+        isScrolled
+          ? "bg-white/90 backdrop-blur-sm shadow-md"
+          : "bg-transparent backdrop-blur-xs shadow-md"
+      }`}
+    >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo with Link */}
         <Link href="/" className="flex items-center" onClick={closeMenu}>
           <Image
-            src="/logo-moolen.png"  
+            src="/logo-moolen.png"
             alt="Logo"
             width={100}
             height={100}
@@ -63,7 +71,7 @@ const Navbar = () => {
           <ul className="flex space-x-6">
             {navLinks.map((link) => (
               <li key={link.name}>
-                <Link 
+                <Link
                   href={link.path}
                   className="text-gray-800 hover:text-color-primary transition-colors duration-200 font-medium"
                 >
@@ -74,19 +82,37 @@ const Navbar = () => {
           </ul>
 
           <div className="flex items-center space-x-4 ml-6">
-            <Link 
-              href="/search" 
-              className="bg-color-primary text-white px-4 py-2 rounded-md hover:bg-opacity-90 transition-colors duration-200"
+            <Link
+              href="/search"
+              className="bg-color-primary text-black px-4 py-2 rounded-md hover:bg-opacity-90 transition-colors duration-200"
             >
               Search
             </Link>
             {isLoggedIn ? (
-              <Link href="/profile" className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer">
-                <User className="text-gray-600" />
+              <Link
+                href="/profile"
+                className="flex items-center space-x-2 cursor-pointer"
+              >
+                {currentUser.avatar ? (
+                  <img
+                    src={currentUser.avatar}
+                    alt="User Avatar"
+                    className="w-10 h-10 rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="flex items-center space-x-2">
+                    <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
+                      <User className="text-gray-600" />
+                    </div>
+                    {currentUser.name && (
+                      <span className="text-gray-700">{currentUser.username}</span>
+                    )}
+                  </div>
+                )}
               </Link>
             ) : (
-              <Link 
-                href="/signin" 
+              <Link
+                href="/signin"
                 className="bg-black text-white px-6 py-2 rounded-full hover:bg-gray-800 transition-colors duration-200"
               >
                 Sign In
@@ -98,23 +124,23 @@ const Navbar = () => {
         {/* Mobile Menu Button */}
         <div className="md:hidden flex items-center">
           {isLoggedIn ? (
-            <Link 
-              href="/profile" 
+            <Link
+              href="/profile"
               className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer mr-4"
               onClick={closeMenu}
             >
               <User className="text-gray-600" />
             </Link>
           ) : (
-            <Link 
-              href="/signin" 
+            <Link
+              href="/signin"
               className="bg-black text-white px-4 py-2 rounded-full text-sm mr-4"
               onClick={closeMenu}
             >
               Sign In
             </Link>
           )}
-          <button 
+          <button
             onClick={toggleMenu}
             className="text-gray-800 focus:outline-none cursor-pointer"
             aria-label="Toggle menu"
@@ -134,7 +160,7 @@ const Navbar = () => {
           <ul className="px-4 py-3 space-y-3">
             {navLinks.map((link) => (
               <li key={link.name}>
-                <Link 
+                <Link
                   href={link.path}
                   onClick={closeMenu}
                   className="block py-2 text-gray-800 hover:text-color-primary transition-colors duration-200 font-medium"
@@ -144,10 +170,10 @@ const Navbar = () => {
               </li>
             ))}
             <li>
-              <Link 
-                href="/search" 
+              <Link
+                href="/search"
                 onClick={closeMenu}
-                className="block w-full mt-2 bg-color-primary text-white px-4 py-2 rounded-md hover:bg-opacity-90 transition-colors duration-200 text-center"
+                className="block w-full mt-2 bg-color-primary text-black px-4 py-2 rounded-md hover:bg-opacity-90 transition-colors duration-200 text-center"
               >
                 Search
               </Link>

@@ -1,18 +1,19 @@
 "use client";
 
-import { use, useState } from "react";
+import { use, useContext, useState } from "react";
 import { Camera, Edit, PlusCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import apiRequest from "@/lib/apiRequest";
 import { useRouter } from "next/navigation";
+import AuthContext from "@/context/AuthContext";
 
 // Mock user data - in a real app, you would fetch this from your API
 const userData = {
   id: "user123",
   username: "johndoe",
   email: "john.doe@example.com",
-  avatar: "/default-avatar.jpg",
+  avatar: "https://images.pexels.com/photos/1918291/pexels-photo-1918291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
   joinedDate: "January 2023",
   posts: [
     {
@@ -55,6 +56,7 @@ const Profile = () => {
   const [user, setUser] = useState(userData);
   const [newAvatar, setNewAvatar] = useState(null);
   const router = useRouter();
+  const { currentUser, updateUser } = useContext(AuthContext);
 
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
@@ -85,7 +87,7 @@ const Profile = () => {
           <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-2 border-gray-200 relative">
             <Image
               src={newAvatar || user.avatar}
-              alt={user.username}
+              alt={currentUser.username}
               width={128}
               height={128}
               className="object-cover w-full h-full"
@@ -109,7 +111,7 @@ const Profile = () => {
         {/* User Info */}
         <div className="flex-1">
           <div className="flex items-center gap-4 mb-2">
-            <h1 className="text-2xl md:text-3xl font-bold">{user.username}</h1>
+            <h1 className="text-2xl md:text-3xl font-bold">{currentUser.username}</h1>
             <button
               onClick={() => setIsEditing(!isEditing)}
               className="flex items-center gap-1 text-sm bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded-full transition-colors"
@@ -119,8 +121,8 @@ const Profile = () => {
             </button>
           </div>
 
-          <p className="text-gray-600 mb-2">{user.email}</p>
-          <p className="text-gray-500 text-sm">Joined {user.joinedDate}</p>
+          <p className="text-gray-600 mb-2">{currentUser.email}</p>
+          <p className="text-gray-500 text-sm">Joined {currentUser.createdAt}</p>
 
           {/* Action Buttons */}
           <div className="flex gap-4 mt-6">
@@ -131,7 +133,10 @@ const Profile = () => {
               <PlusCircle className="w-5 h-5" />
               <span>Create New Post</span>
             </Link>
-            <button className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg transition-colors" onClick={handleLogout}>
+            <button
+              className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg transition-colors"
+              onClick={handleLogout}
+            >
               Logout
             </button>
           </div>
