@@ -1,3 +1,4 @@
+import ProtectedRoute from "@/components/ProtectedLayout";
 import {
   MapPin,
   Proportions,
@@ -12,7 +13,6 @@ import Image from "next/image";
 import Link from "next/link";
 
 const DetailPage = ({ params }) => {
-
   const property = {
     id: params.id,
     title: "Modern Apartment in Downtown",
@@ -44,136 +44,140 @@ const DetailPage = ({ params }) => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
-      {/* Breadcrumb */}
-      <div className="flex items-center text-sm text-gray-500 mb-6">
-        <Link href="/" className="hover:text-orange-500">
-          Home
-        </Link>
-        <span className="mx-2">/</span>
-        <Link href="/list" className="hover:text-orange-500">
-          Properties
-        </Link>
-        <span className="mx-2">/</span>
-        <span className="text-orange-500">{property.title}</span>
-      </div>
-
-      {/* Title and Rating */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-        <h1 className="text-2xl md:text-3xl font-bold capitalize mb-2 md:mb-0">
-          {property.title}
-        </h1>
-        <div className="flex items-center">
-          <Star className="w-5 h-5 text-orange-500 fill-orange-500" />
-          <span className="ml-1 font-medium">{property.rating}</span>
-          <span className="ml-1 text-gray-500">
-            ({property.reviews} reviews)
-          </span>
+    <ProtectedRoute>
+      <div className="max-w-6xl mx-auto px-4 py-8">
+        {/* Breadcrumb */}
+        <div className="flex items-center text-sm text-gray-500 mb-6">
+          <Link href="/" className="hover:text-orange-500">
+            Home
+          </Link>
+          <span className="mx-2">/</span>
+          <Link href="/list" className="hover:text-orange-500">
+            Properties
+          </Link>
+          <span className="mx-2">/</span>
+          <span className="text-orange-500">{property.title}</span>
         </div>
-      </div>
 
-      {/* Main Image */}
-      <div className="relative w-full h-64 md:h-96 rounded-2xl overflow-hidden mb-6">
-        <Image
-          src={property.img}
-          alt={property.title}
-          fill
-          className="object-cover"
-          priority
-        />
-      </div>
-
-      {/* Property Details */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {/* Left Column */}
-        <div className="md:col-span-2">
-          {/* Basic Info */}
-          <div className="border-b border-gray-200 pb-6 mb-6">
-            <div className="flex items-center text-gray-500 text-base mb-4">
-              <MapPin className="w-5 h-5 mr-2 text-orange-500" />
-              {property.address}
-            </div>
-
-            <div className="flex flex-wrap gap-4 mb-4">
-              <div className="flex items-center text-gray-500 text-base">
-                <Warehouse className="w-5 h-5 mr-2 text-orange-500" />
-                {property.bedroom} Bedroom
-              </div>
-              <div className="flex items-center text-gray-500 text-base">
-                <Proportions className="w-5 h-5 mr-2 text-orange-500" />
-                {property.bathroom} Bathroom
-              </div>
-            </div>
-
-            <p className="text-gray-700">{property.description}</p>
-          </div>
-
-          {/* Amenities */}
-          <div className="border-b border-gray-200 pb-6 mb-6">
-            <h2 className="text-xl font-semibold mb-4">Amenities</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {property.amenities.map((amenity, index) => (
-                <div key={index} className="flex items-center">
-                  {amenity.icon}
-                  <span className="ml-2 text-gray-700">{amenity.name}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Gallery */}
-          <div>
-            <h2 className="text-xl font-semibold mb-4">Gallery</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {property.images.map((image, index) => (
-                <div
-                  key={index}
-                  className="relative h-32 rounded-lg overflow-hidden"
-                >
-                  <Image
-                    src={image}
-                    alt={`Property image ${index + 1}`}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              ))}
-            </div>
+        {/* Title and Rating */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+          <h1 className="text-2xl md:text-3xl font-bold capitalize mb-2 md:mb-0">
+            {property.title}
+          </h1>
+          <div className="flex items-center">
+            <Star className="w-5 h-5 text-orange-500 fill-orange-500" />
+            <span className="ml-1 font-medium">{property.rating}</span>
+            <span className="ml-1 text-gray-500">
+              ({property.reviews} reviews)
+            </span>
           </div>
         </div>
 
-        {/* Right Column - Booking Card */}
-        <div className="border border-gray-200 rounded-xl p-6 h-fit sticky top-6">
-          <div className="flex items-baseline justify-between mb-4">
+        {/* Main Image */}
+        <div className="relative w-full h-64 md:h-96 rounded-2xl overflow-hidden mb-6">
+          <Image
+            src={property.img}
+            alt={property.title}
+            fill
+            className="object-cover"
+            priority
+          />
+        </div>
+
+        {/* Property Details */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Left Column */}
+          <div className="md:col-span-2">
+            {/* Basic Info */}
+            <div className="border-b border-gray-200 pb-6 mb-6">
+              <div className="flex items-center text-gray-500 text-base mb-4">
+                <MapPin className="w-5 h-5 mr-2 text-orange-500" />
+                {property.address}
+              </div>
+
+              <div className="flex flex-wrap gap-4 mb-4">
+                <div className="flex items-center text-gray-500 text-base">
+                  <Warehouse className="w-5 h-5 mr-2 text-orange-500" />
+                  {property.bedroom} Bedroom
+                </div>
+                <div className="flex items-center text-gray-500 text-base">
+                  <Proportions className="w-5 h-5 mr-2 text-orange-500" />
+                  {property.bathroom} Bathroom
+                </div>
+              </div>
+
+              <p className="text-gray-700">{property.description}</p>
+            </div>
+
+            {/* Amenities */}
+            <div className="border-b border-gray-200 pb-6 mb-6">
+              <h2 className="text-xl font-semibold mb-4">Amenities</h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {property.amenities.map((amenity, index) => (
+                  <div key={index} className="flex items-center">
+                    {amenity.icon}
+                    <span className="ml-2 text-gray-700">{amenity.name}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Gallery */}
             <div>
-              <span className="text-2xl font-bold text-orange-500">
-                ${property.price}
-              </span>
-              <span className="text-gray-500 ml-1">/person</span>
-            </div>
-            <div className="text-gray-500">
-              <span>{property.rating}</span>
-              <Star className="w-4 h-4 text-orange-500 fill-orange-500 inline ml-1" />
+              <h2 className="text-xl font-semibold mb-4">Gallery</h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {property.images.map((image, index) => (
+                  <div
+                    key={index}
+                    className="relative h-32 rounded-lg overflow-hidden"
+                  >
+                    <Image
+                      src={image}
+                      alt={`Property image ${index + 1}`}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
-          <button className="w-full bg-orange-500 text-white py-3 rounded-lg font-medium hover:bg-orange-600 transition-colors mb-6">
-            Book Now
-          </button>
+          {/* Right Column - Booking Card */}
+          <div className="border border-gray-200 rounded-xl p-6 h-fit sticky top-6">
+            <div className="flex items-baseline justify-between mb-4">
+              <div>
+                <span className="text-2xl font-bold text-orange-500">
+                  ${property.price}
+                </span>
+                <span className="text-gray-500 ml-1">/person</span>
+              </div>
+              <div className="text-gray-500">
+                <span>{property.rating}</span>
+                <Star className="w-4 h-4 text-orange-500 fill-orange-500 inline ml-1" />
+              </div>
+            </div>
 
-          <div className="text-center text-gray-500 mb-6">
-            You won't be charged yet
-          </div>
+            <button className="w-full bg-orange-500 text-white py-3 rounded-lg font-medium hover:bg-orange-600 transition-colors mb-6">
+              Book Now
+            </button>
 
-          <div className="border-t border-gray-200 pt-6">
-            <h3 className="font-medium mb-2">Hosted by {property.host.name}</h3>
-            <p className="text-gray-500 text-sm">
-              Joined in {property.host.joined}
-            </p>
+            <div className="text-center text-gray-500 mb-6">
+              You won't be charged yet
+            </div>
+
+            <div className="border-t border-gray-200 pt-6">
+              <h3 className="font-medium mb-2">
+                Hosted by {property.host.name}
+              </h3>
+              <p className="text-gray-500 text-sm">
+                Joined in {property.host.joined}
+              </p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </ProtectedRoute>
   );
 };
 

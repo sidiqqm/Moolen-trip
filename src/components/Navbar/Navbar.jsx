@@ -88,31 +88,23 @@ const Navbar = () => {
             >
               Search
             </Link>
-            {isLoggedIn ? (
+            {currentUser ? (
               <Link
                 href="/profile"
                 className="flex items-center space-x-2 cursor-pointer"
               >
-                {currentUser.avatar ? (
-                  <img
-                    src={currentUser.avatar}
-                    alt="User Avatar"
-                    className="w-10 h-10 rounded-full object-cover"
-                  />
-                ) : (
-                  <div className="flex items-center space-x-2">
-                    <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
-                      <User className="text-gray-600" />
-                    </div>
-                    {currentUser.name && (
-                      <span className="text-gray-700">{currentUser.username}</span>
-                    )}
-                  </div>
-                )}
+                <img
+                  src={
+                    currentUser.avatar ||
+                    "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                  }
+                  alt="User Avatar"
+                  className="w-10 h-10 rounded-full object-cover"
+                />
               </Link>
             ) : (
               <Link
-                href="/signin"
+                href="/login"
                 className="bg-black text-white px-6 py-2 rounded-full hover:bg-gray-800 transition-colors duration-200"
               >
                 Sign In

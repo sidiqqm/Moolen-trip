@@ -29,8 +29,12 @@ export const AuthContextProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    if (typeof window !== "undefined" && currentUser !== null) {
-      localStorage.setItem("user", JSON.stringify(currentUser));
+    if (typeof window !== "undefined") {
+      if (currentUser !== null) {
+        localStorage.setItem("user", JSON.stringify(currentUser));
+      } else {
+        localStorage.removeItem("user"); // Hapus kalau null
+      }
     }
   }, [currentUser]);
 
@@ -39,7 +43,7 @@ export const AuthContextProvider = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ currentUser, updateUser }}>
+    <AuthContext.Provider value={{ currentUser, updateUser, loading }}>
       {children}
     </AuthContext.Provider>
   );
