@@ -60,14 +60,14 @@ const Profile = () => {
   const [newAvatar, setNewAvatar] = useState(null);
   const router = useRouter();
   const { currentUser, updateUser, loading } = useContext(AuthContext);
+  const [error, setError] = useState();
 
   useEffect(() => {
     if (!loading && !currentUser) {
-      router.replace("/login"); // Redirect ke login jika tidak ada user
+      router.replace("/login");
     }
   }, [loading, currentUser]);
 
-  // Tampilkan loading jika context masih loading atau user belum terdeteksi
   if (loading || !currentUser) {
     return <Loading />;
   }
@@ -94,6 +94,24 @@ const Profile = () => {
       router.push("/login");
     } catch (err) {
       console.log(err.message);
+    }
+  };
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const { username, email, password } = Object.fromEntries(formData);
+
+    try {
+      const res = await apiRequest.put(`user/${currentUser.id}`, {
+        username,
+        email,
+        password,
+      });
+      updateUser(res.data);
+      router.push("/");
+    } catch (err) {
+      setError(err);
     }
   };
 
@@ -174,15 +192,13 @@ const Profile = () => {
         {isEditing && (
           <div className="bg-gray-50 p-6 rounded-xl mb-8">
             <h2 className="text-xl font-semibold mb-4">Edit Profile</h2>
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={handleUpdate}>
               <div>
                 <label className="block text-gray-700 mb-2">Username</label>
                 <input
                   type="text"
-                  value={currentUser.username}
-                  onChange={(e) =>
-                    setUser({ ...user, username: e.target.value })
-                  }
+                  name="username"
+                  defaultValue={currentUser.username}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
                 />
               </div>
@@ -190,8 +206,16 @@ const Profile = () => {
                 <label className="block text-gray-700 mb-2">Email</label>
                 <input
                   type="email"
-                  value={currentUser.email}
-                  onChange={(e) => setUser({ ...user, email: e.target.value })}
+                  name=""
+                  defaultValue={currentUser.email}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 mb-2">Password</label>
+                <input
+                  type="password"
+                  name="password"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
                 />
               </div>

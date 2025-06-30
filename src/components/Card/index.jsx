@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { MapPin, ArrowRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 const destinations = [
   {
@@ -132,9 +133,9 @@ export default function TravelDestinations() {
         </div>
 
         <div className="text-center mt-12">
-          <button className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-3 rounded-full font-medium transition-colors duration-200">
+          <Link href={"/list"} className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-3 rounded-full font-medium transition-colors duration-200">
             Load More Destinations
-          </button>
+          </Link>
         </div>
       </div>
     </div>
