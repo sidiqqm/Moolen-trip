@@ -1,18 +1,18 @@
 "use client";
+import Loading from "@/app/loading";
 import { createContext, useEffect, useState } from "react";
 
 const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
-  const [loading, setLoading] = useState(true); // Tambahan state untuk loading
+  const [loading, setLoading] = useState(true);
 
   const updateUser = (data) => {
     setCurrentUser(data);
   };
 
   useEffect(() => {
-    // Hanya berjalan di client-side
     if (typeof window !== "undefined") {
       try {
         const userData = localStorage.getItem("user");
@@ -21,7 +21,7 @@ export const AuthContextProvider = ({ children }) => {
         }
       } catch (error) {
         console.error("Error parsing user data:", error);
-        localStorage.removeItem("user"); // Bersihkan data corrupt
+        localStorage.removeItem("user");
       } finally {
         setLoading(false);
       }
@@ -39,7 +39,7 @@ export const AuthContextProvider = ({ children }) => {
   }, [currentUser]);
 
   if (loading) {
-    return <div>Loading...</div>; // Atau tampilan loading lainnya
+    return <Loading />;
   }
 
   return (
